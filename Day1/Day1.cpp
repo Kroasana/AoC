@@ -48,6 +48,8 @@ int main(){
     std::ifstream iFile ("input.txt");
     std::ofstream oFile ("output.txt");
 
+    int answer1 = 0, answer2 = 0;
+
     std::string line;///read each line
     std::vector<int>nums;///store the numbers
     if (iFile.is_open()){
@@ -56,11 +58,11 @@ int main(){
         }
     }
 
-    int ans = find2020_2(nums);
-    oFile << ans <<'\n';
+    answer1 = find2020_2(nums);
+    answer2 = find2020_3(nums);
 
-    ans = find2020_3(nums);
-    oFile << ans <<'\n';
+    std::cout<<answer1<<' '<<answer2<<'\n';
+    oFile << answer1 << ' ' << answer2 <<'\n';
 
     iFile.close();
     oFile.close();

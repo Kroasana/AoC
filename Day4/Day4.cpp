@@ -187,9 +187,9 @@ int main(){
         answer2 += isCorrect(currPasport,currValues,2);
 
     }
-    std::cout<<cntPassports<<" passports\n"<<answer1<<' '<<answer2<<'\n';
 
-
+    std::cout<<answer1 << ' ' << answer2 <<'\n';
+    oFile <<   answer1 << ' ' << answer2 <<'\n';
 
     iFile.close();
     oFile.close();

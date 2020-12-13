@@ -53,8 +53,7 @@ int main(){
         answer *= answers[i];
 
     std::cout<<answers[1]<<' '<<answer<<'\n';
-
-
+    oFile    <<answers[1]<<' '<<answer<<'\n';
 
     iFile.close();
     oFile.close();

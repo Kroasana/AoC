@@ -38,7 +38,9 @@ int main(){
     }
     answer1+=bset.count();
     answer2+=bset2.count();
-    std::cout<<answer1<<' '<<answer2<<'\n';
+
+    std::cout<< answer1 << ' ' << answer2 <<'\n';
+    oFile    << answer1 << ' ' << answer2 <<'\n';
 
     iFile.close();
     oFile.close();

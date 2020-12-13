@@ -96,7 +96,8 @@ int main(){
     answer1 = solve1(k["shiny gold"]);
     answer2 = solve2(k["shiny gold"],1) - 1;
 
-    std::cout<<answer1<<' '<<answer2<<'\n';
+    std::cout<< answer1 << ' ' << answer2 <<'\n';
+    oFile    << answer1 << ' ' << answer2 <<'\n';
 
     iFile.close();
     oFile.close();

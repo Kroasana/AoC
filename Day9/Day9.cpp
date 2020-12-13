@@ -83,7 +83,9 @@ int main(){
             }
         }
     }
-    std::cout<<answer1<<' '<<answer2<<'\n';
+
+    std::cout<< answer1 << ' ' << answer2 <<'\n';
+    oFile    << answer1 << ' ' << answer2 <<'\n';
 
     iFile.close();
     oFile.close();

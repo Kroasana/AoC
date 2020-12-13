@@ -94,7 +94,9 @@ int main(){
     int currOp = 0,prevOp = 0;
     answer1 = solve().first;
     answer2 = solve2();
-    std::cout<<answer1<<' '<<answer2<<'\n';
+
+    std::cout<< answer1 << ' ' << answer2 <<'\n';
+    oFile    << answer1 << ' ' << answer2 <<'\n';
 
     iFile.close();
     oFile.close();
