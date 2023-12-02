@@ -15,6 +15,14 @@ bool isDigit(char c) {
     return c >= '0' && c <= '9';
 }
 
+/// @brief Utility function to convert a char to a digit.
+/// @param c The character to convert.
+/// @return -1 if c is not between '0' and '9', the respective digit as an int otherwise.
+int charToInt(char c) {
+    if (!isDigit(c)) return -1;
+    return c - '0';
+}
+
 /// @brief Utility function to transform a string to a 32-bit integer
 /// @param s The string to transform.
 /// @return The integer value of the input string of decimal characters.
