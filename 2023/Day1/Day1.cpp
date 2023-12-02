@@ -6,6 +6,7 @@
 #include <queue>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 /// @brief Utility function to check whether a character is a digit.
@@ -60,6 +61,40 @@ std::vector<int> split(const std::string &s, char delim) {
     return result;
 }
 
+int part2(std::string s) {
+    std::unordered_map<int, std::string> m{{1, "one"}, {2, "two"}, {3, "three"}, {4, "four"}, {5, "five"}, {6, "six"}, {7, "seven"}, {8, "eight"}, {9, "nine"}};
+
+    int firstDigit = 0, lastDigit = 0;
+    int idx = s.size();
+    for (int i = 1; i <= 9; i++) {
+        int newIdx = s.find(m[i]);
+        if (newIdx != std::string::npos && newIdx < idx) {
+            idx = newIdx;
+            firstDigit = i;
+        }
+        int newIdx2 = s.find('0' + i);
+        if (newIdx2 != std::string::npos && newIdx2 < idx) {
+            idx = newIdx2;
+            firstDigit = i;
+        }
+    }
+    std::reverse(s.begin(), s.end());
+    idx = s.size();
+    for (int i = 1; i <= 9; i++) {
+        int newIdx = s.find(std::string(m[i].rbegin(), m[i].rend()));
+        if (newIdx != std::string::npos && newIdx < idx) {
+            idx = newIdx;
+            lastDigit = i;
+        }
+        int newIdx2 = s.find('0' + i);
+        if (newIdx2 != std::string::npos && newIdx2 < idx) {
+            idx = newIdx2;
+            lastDigit = i;
+        }
+    }
+    return firstDigit * 10 + lastDigit;
+}
+
 int main() {
     // initialize file connections
     std::ifstream iFile("input.txt");
@@ -80,6 +115,7 @@ int main() {
                 lastDigit = digit;
             }
             answer1 += firstDigit * 10 + lastDigit;
+            answer2 += part2(line);
         }
     }
     // Output to the console/terminal
