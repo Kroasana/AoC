@@ -60,18 +60,57 @@ std::vector<std::string> split(const std::string &s, char delim) {
     return result;
 }
 
+std::map<std::string, int> getDrawResults(std::string draw) {
+    std::map<std::string, int> result;
+
+    std::vector<std::string> balls = split(draw, ',');
+    for (std::string ball : balls) {
+        std::vector<std::string> cntColor = split(ball, ' ');
+        result[cntColor[2]] = strToInt(cntColor[1]);
+    }
+
+    return result;
+}
+
+std::vector<std::map<std::string, int>> getGameResults(std::string game) {
+    std::vector<std::map<std::string, int>> results;
+    for (std::string draw : split(game, ';')) {
+        results.push_back(getDrawResults(draw));
+    }
+    return results;
+}
+
 int main() {
     // initialize file connections
-    std::ifstream iFile("testinput.txt");
+    std::ifstream iFile("input.txt");
     std::ofstream oFile("output.txt");
 
-    int answer1 = 0, answer2 = 0;
+    long long answer1 = 0, answer2 = 0;
     std::string line;
 
     if (iFile.is_open()) {
         // Read the input file line by line.
+        int gameNumber;
         while (getline(iFile, line)) {
-            // Do stuff with line
+            std::vector<std::string> gameSplit = split(line, ':');
+            gameNumber = strToInt(split(gameSplit[0], ' ')[1]);
+            std::vector<std::map<std::string, int>> results = getGameResults(gameSplit[1]);
+            bool isValid = 1;
+            int minRed = 0;
+            int minGreen = 0;
+            int minBlue = 0;
+
+            for (std::map<std::string, int> result : results) {
+                std::cout << "Game " << gameNumber << ": " << result["red"] << ' ' << result["green"] << ' ' << result["blue"] << '\n';
+                if (result["red"] > 12 || result["green"] > 13 || result["blue"] > 14) {
+                    isValid = 0;
+                }
+                minRed = std::max(minRed, result["red"]);
+                minGreen = std::max(minGreen, result["green"]);
+                minBlue = std::max(minBlue, result["blue"]);
+            }
+            answer1 += isValid * gameNumber;
+            answer2 += minRed * minGreen * minBlue;
         }
     }
     // Output to the console/terminal
