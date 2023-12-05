@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <bitset>
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -8,6 +9,27 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
+// trim from start (in place)
+static inline void ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }));
+}
+
+// trim from end (in place)
+static inline void rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }).base(),
+            s.end());
+}
+
+// trim from both ends (in place)
+static inline void trim(std::string &s) {
+    rtrim(s);
+    ltrim(s);
+}
 
 /// @brief Utility function to check whether a character is a digit.
 /// @param c The character to check.
@@ -56,7 +78,9 @@ std::vector<std::string> split(const std::string &s, char delim) {
     std::string substring;
 
     while (getline(ss, substring, delim)) {
-        result.push_back(substring);
+        trim(substring);
+        if (substring.size())
+            result.push_back(substring);
     }
     return result;
 }
@@ -65,6 +89,8 @@ int main() {
     // initialize file connections
     std::ifstream iFile("testinput.txt");
     std::ofstream oFile("output.txt");
+
+    auto tStart = std::chrono::high_resolution_clock::now();
 
     int answer1 = 0, answer2 = 0;
     std::string line;
@@ -79,6 +105,10 @@ int main() {
     std::cout << answer1 << ' ' << answer2 << '\n';
     // Output to output.txt
     oFile << answer1 << ' ' << answer2 << '\n';
+
+    auto tEnd = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> duration_double = tEnd - tStart;
+    std::cout << "Time: " << duration_double.count() << "ms\n";
 
     iFile.close();
     oFile.close();
