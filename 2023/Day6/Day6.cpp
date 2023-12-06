@@ -95,23 +95,60 @@ std::vector<T> mapVector(std::vector<TI> input, std::function<T(TI)> func) {
     return result;
 }
 
-// TODO: Export the functions to a utils header
-
 int main() {
     // initialize file connections
-    std::ifstream iFile("testinput.txt");
+    std::ifstream iFile("input.txt");
     std::ofstream oFile("output.txt");
 
     auto tStart = std::chrono::high_resolution_clock::now();
 
-    int answer1 = 0, answer2 = 0;
+    long long answer1 = 1, answer2 = 1;
     std::string line;
 
+    std::vector<long long> times;
+    std::vector<long long> distances;
+
+    long long time2 = 0, distance2 = 0;
     if (iFile.is_open()) {
         // Read the input file line by line.
-        while (getline(iFile, line)) {
-            // Do stuff with line
+        getline(iFile, line);
+        std::vector<std::string> vec = split(split(line, ':')[1], ' ');
+        times = mapVector<std::string, long long>(vec, strToLL);
+        for (int i = 0, max = vec.size(); i < max; i++) {
+            for (char c : vec[i]) {
+                time2 = time2 * 10 + charToInt(c);
+            }
         }
+
+        getline(iFile, line);
+        vec = split(split(line, ':')[1], ' ');
+        distances = mapVector<std::string, long long>(vec, strToLL);
+        for (int i = 0, max = vec.size(); i < max; i++) {
+            for (char c : vec[i]) {
+                distance2 = distance2 * 10 + charToInt(c);
+            }
+        }
+
+        for (int i = 0; i < times.size(); i++) {
+            int min = -1, max = 0;
+            for (long long t = 0; t < times[i]; t++) {
+                long long dist = (times[i] - t) * t;
+                if (dist > distances[i]) {
+                    if (min == -1) min = t;
+                    max = t;
+                }
+            }
+            answer1 *= (1 + max - min);
+        }
+        int min2 = -1, max2 = 0;
+        for (int t = 0; t < time2; t++) {
+            long long dist = (time2 - t) * t;
+            if (dist > distance2) {
+                if (min2 == -1) min2 = t;
+                max2 = t;
+            }
+        }
+        answer2 = 1 + max2 - min2;
     }
     // Output to the console/terminal
     std::cout << answer1 << ' ' << answer2 << '\n';
